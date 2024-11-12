@@ -28,7 +28,6 @@ export async function consumeMessages() {
         console.log("Datos recibidos:", data);
 
         const identificacion = data.user.identificacion;
-        
 
         // Llamar a la función sendEmail con el correo del usuario
         try {
@@ -46,20 +45,47 @@ export async function consumeMessages() {
 }
 
 export const registerPointsUInitial = async (identificacion) => {
-    try {
-      // Crear un nuevo registro de puntos
-      const newPuntos = new Punto({
-        id_user: identificacion,
-        cantidad: 0,
-      });
-  
-      // Guardar el nuevo registro de puntos
-      await newPuntos.save();
-  
-      // Registro de éxito en consola
-      console.log("Puntos registrados con éxito para el usuario:", identificacion);
-    } catch (error) {
-      // Registro de error en consola
-      console.error("Error al registrar los puntos para el usuario:", identificacion, error);
-    }
-  };
+  try {
+    // Crear un nuevo registro de puntos
+    const newPuntos = new Punto({
+      id_user: identificacion,
+      cantidad: 0,
+    });
+
+    // Guardar el nuevo registro de puntos
+    await newPuntos.save();
+
+    // Registro de éxito en consola
+    console.log(
+      "Puntos registrados con éxito para el usuario:",
+      identificacion
+    );
+  } catch (error) {
+    // Registro de error en consola
+    console.error(
+      "Error al registrar los puntos para el usuario:",
+      identificacion,
+      error
+    );
+  }
+};
+
+export const getPuntosUser = async (req, res) => {
+  const { identificacion } = req.params;
+  try {
+    // Buscar registros de puntos para el usuario
+    const puntos = await Punto.find({ id_user: identificacion });
+
+    // Registro de éxito en consola
+    console.log("Puntos obtenidos con éxito para el usuario:", identificacion);
+
+    res.json(puntos);
+  } catch (error) {
+    // Registro de error en consola
+    console.error(
+      "Error al obtener los puntos para el usuario:",
+      identificacion,
+      error
+    );
+  }
+};
