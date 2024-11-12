@@ -1,8 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 
-app.use(morgan('dev'));
 
 const app = express();
+
+app.use(morgan('dev'));
+
 
 export default app;
